@@ -1,9 +1,10 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"os"
-	"install"
+
 	"github.com/urfave/cli/v2"
 )
 
@@ -41,7 +42,7 @@ func main() {
 			},
 			&cli.StringFlag{
 				Name:        "mirror",
-				Value:       "random",
+				Value:       "none",
 				Usage:       "Select a mirror. Not recommended as TumCat selects a random one and tries all of them.",
 				Destination: &mirror,
 				Aliases:     []string{"m", "mir"},
@@ -50,13 +51,14 @@ func main() {
 		// Setting all of the Commands
 		Commands: []*cli.Command{
 			{
-				Name: "install",
+				Name:    "install",
 				Aliases: []string{"i", "inst"},
-				Usage: "Use: tumcat i <package-name> | sInstalls an application from a random mirror"
+				Usage:   "Use: tumcat i <package-name> | sInstalls an application from a random mirror",
 				Action: func(c *cli.Context) error {
+					install("lol", mirror)
 					return nil
 				},
-			}
+			},
 		},
 		Action: func(c *cli.Context) error {
 			return nil
@@ -69,7 +71,18 @@ func main() {
 	}
 }
 
-func install(pkgname string, mirror string)
-{
+func install(pkgname string, m_mirror string) {
+	var mirror string
+	if m_mirror == "none" {
+		fmt.Println("lol")
+		mirror = getGoodMirror(pkgname)
+	} else {
+		fmt.Println("h")
+		mirror = m_mirror
+	}
+	fmt.Println(mirror)
+}
 
+func getGoodMirror(pkgname string) string {
+	return "https://downloads.com/hello"
 }
